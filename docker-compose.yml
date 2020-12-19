@@ -1,6 +1,21 @@
 version: '3.8'
 
 services:
+  #Nginx Service
+  webserver-curios:
+    image: nginx:alpine
+    container_name: webserver-curios
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "81:80"
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d
+    networks:
+      - app-curios-network
+  
+  # Curios App
   app-curios:
     container_name: app-curios
     build:
@@ -16,20 +31,6 @@ services:
     volumes:
       - ./:/var/www
       - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
-    networks:
-      - app-curios-network
-
-  #Nginx Service
-  webserver-curios:
-    image: nginx:alpine
-    container_name: webserver-curios
-    restart: unless-stopped
-    tty: true
-    ports:
-      - "81:80"
-    volumes:
-      - ./:/var/www
-      - ./nginx/conf.d/:/etc/nginx/conf.d
     networks:
       - app-curios-network
   
