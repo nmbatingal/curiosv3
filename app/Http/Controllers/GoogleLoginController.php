@@ -8,6 +8,7 @@ use Exception;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Providers\RouteServiceProvider;
 
 class GoogleLoginController extends Controller
 {
@@ -38,7 +39,7 @@ class GoogleLoginController extends Controller
        
                 Auth::login($finduser);
       
-                return redirect()->intended('dashboard');
+                return redirect(RouteServiceProvider::HOME);
        
             }else{
                 $newUser = User::updateOrCreate([
@@ -53,7 +54,7 @@ class GoogleLoginController extends Controller
       
                 Auth::login($newUser);
       
-                return redirect()->intended('dashboard');
+                return redirect(RouteServiceProvider::HOME);
             }
       
         } catch (Exception $e) {
